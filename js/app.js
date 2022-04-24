@@ -1,52 +1,6 @@
 var currentUserName;
 var currentUserUid;
 
-window.onload = () => {
-    firebase.auth().onAuthStateChanged(function (user) {
-        if (user) {
-            // show user's name after sign in
-            firebase.database().ref('/users/' + user.uid).once('value', (success) => {
-                currentUserUid = success.val().userUid;
-                currentUserName = success.val().signupName;
-                if (currentUserUid === user.uid) {
-                    signinBtn.innerHTML = `<i style="font-size:18px; vertical-align:middle;" class="fas fa-user-circle"></i> &nbsp; ${currentUserName}`;
-                }
-            });
-
-            // User is signed in.
-            localStorage.setItem('auth', JSON.stringify(user));
-            signoutBtn.setAttribute("onclick", "signOutBtn_f()");
-
-            // for signoutHover
-            document.getElementById("dropdownContent").removeAttribute('id', 'dropdownContent');
-
-            //allow to click on sellBtn
-            sellBtn.addEventListener('click', () => {
-                signinPopup.style.display = "none";
-                signupPopup.style.display = "none";
-                sellPopup.style.display = "none";
-                categoryPopup.style.display = "flex";
-            })
-        } else {
-            // No user is signed in.
-            signinBtn.setAttribute("onclick", "signinBtn_f()");
-            signinBtn.innerText = "Sign In";
-            localStorage.clear()
-
-            // for signoutHover
-            document.getElementsByClassName("dropdownContent")[0].setAttribute('id', 'dropdownContent');
-
-            //don't allow to click on sellBtn
-            sellBtn.addEventListener('click', () => {
-                signinPopup.style.display = "flex";
-                signupPopup.style.display = "none";
-                sellPopup.style.display = "none";
-                categoryPopup.style.display = "none";
-            })
-        }
-    });
-}
-
 // signin popup
 var signinBtn = document.getElementById("signinBtn");
 var signinBtn_2 = document.getElementById("signinBtn_2");
@@ -57,6 +11,14 @@ function signinBtn_f() {
     signinPopup.style.display = "flex";
     signupPopup.style.display = "none";
 }
+
+signinBtn.onclick = () => {
+    signinPopup.style.display = "flex";
+    signupPopup.style.display = "none";
+    sellPopup.style.display = "none";
+    categoryPopup.style.display = "none";
+}
+
 signinBtn_2.onclick = () => {
     signinPopup.style.display = "flex";
     signupPopup.style.display = "none";
@@ -139,147 +101,64 @@ var sellForm = document.getElementById("sellForm");
 
 sellForm.onsubmit = (e) => {
     e.preventDefault();
-    var adTitle = document.getElementById("adTitle");
-    var adDescription = document.getElementById("adDescription");
-    var adPrice = document.getElementById("adPrice");
-    var adPhone = document.getElementById("adPhone");
-    var adImage = document.getElementById("adImage");
-
-    addSell.onclick = () => {
-        categoryPopup.style.display = "none";
-        sellPopup.style.display = "none";
-        signupPopup.style.display = "none";
-        signinPopup.style.display = "none";
-    }
+    
 }
 
-// signup with email
-var signupName = document.getElementById("signupName");
-var signupEmail = document.getElementById("signupEmail");
-var signupPw = document.getElementById("signupPw");
 var signupForm = document.getElementById("signupForm");
-var signupWarning = document.getElementById("signupWarning");
-
+// signup
 signupForm.onsubmit = (e) => {
     e.preventDefault();
-    firebase.auth().createUserWithEmailAndPassword(signupEmail.value, signupPw.value).then((success) => {
-        console.log(success);
-        console.log("Signed up");
-        var user = firebase.auth().currentUser;
-        var uid;
-        if (user != null) {
-            uid = user.uid;
-        }
-        var firebaseRef = firebase.database().ref("users");
-        var userData = {
-            signupName: signupName.value,
-            signupEmail: signupEmail.value,
-            signupPw: signupPw.value,
-            userUid: uid,
-        }
-        firebaseRef.child(uid).set(userData);
+    var name = document.getElementById("signupName");
+    var email = document.getElementById("signupEmail");
+    var pass = document.getElementById("signupPw");
+    saveUserLocalSorage(name, email, pass);
 
-        signupPopup.style.display = "none";
+}
 
-    }).catch((error) => {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-
-        signupWarning.innerText = errorMessage;
-        signupWarning.style.display = "block";
-    });
+function saveUserLocalSorage(name, email, pass){
+    const user = {
+        name : name.value,
+        email : email.value, 
+        pass : pass.value
+    };
+    localStorage.setItem(signupEmail.value, JSON.stringify(user));
 }
 
 
-// signin with email
-var signinEmail = document.getElementById("signinEmail");
-var signinPw = document.getElementById("signinPw");
+// signin
 var signinForm = document.getElementById("signinForm");
-var signinPopupContainer = document.getElementById("signinPopupContainer");
-var signinWarning = document.getElementById("signinWarning");
 
 signinForm.onsubmit = (e) => {
     e.preventDefault();
-    firebase.auth().signInWithEmailAndPassword(signinEmail.value, signinPw.value).then((success) => {
-        console.log(success);
-        console.log("Signed in");
-        localStorage.setItem('auth', JSON.stringify(success));
-        signinPopup.style.display = "none";
-        signinEmail.value = "";
-        signinPw.value = "";
-
-        location.reload();
-
-    }).catch((error) => {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-
-        signinWarning.innerText = errorMessage;
-        signinWarning.style.display = "block";
-    });
+    signIn(document.getElementById("signinEmail"), document.getElementById("signinPw"));
 }
+
+function signIn(email, pass){
+    var item = JSON.parse(localStorage.getItem(email.value));
+    if(item !== null){
+        if(item.email === email.value && item.pass === pass.value){
+            console.log('deu certo');
+            window.location.assign('userArea.html');
+        }
+    }
+}
+
 
 // signout
 var signoutBtn = document.getElementById("signoutBtn");
-function signOutBtn_f() {
-    firebase.auth().signOut().then(function () {
-        // Sign-out successful.
-        localStorage.clear();
-        signinEmail.value = "";
-        signinPw.value = "";
-        console.log("Signed out");
 
-        // set ads to default afer user signed out
-        location.reload();
-
-    }).catch(function (error) {
-        // An error happened.
-    });
+signoutBtn.onclick = (e) => {
+    e.preventDefault();
+    signOut();
 }
 
-// fetching all ads
-var allAds = [];
-var filteredAds = [];
-
-(function fetchAds() {
-    firebase.database().ref('/ads').on('child_added', (snapshot) => {
-        var data = snapshot.val();
-        data.key = snapshot.key;
-        allAds.push(data);
-        renderAds(data);
-    });
-})()
+function signOut() {
+    window.location.assign('index.html');
+}
 
 // rendering all products
 const picks = document.getElementById('picks');
 var adUid;
-
-function renderAds(ad) {
-    picks.innerHTML = `
-                    <div class="oneFourth" id="figure">
-                        <figure onclick="showAdDetails(this)">
-                            <div class="productImage">
-                                <img src="${ad.image}" alt="">
-                            </div>
-                            <figcaption>
-                                <span class="productID">${ad.key}</span>
-                                <div class="first">
-                                    <span class="price">Rs. ${ad.price}</span>
-                                    <a href="javascript:void(0)" onclick="console.log('fvrt')" class="addToFvrt"><i class="far fa-heart"></i></a>
-                                </div>
-                                <div class="second">
-                                    <span class="adTitle">${ad.title}</span>
-                                </div>
-                                <div class="productLocation">
-                                    <span>Category: ${ad.category}</span>
-                                </div>
-                            </figcaption>
-                        </figure>
-                    </div> ${picks.innerHTML}`;
-    adUid = ad.key;
-}
 
 // filtering
 var searchCategory = 'All';
@@ -330,117 +209,12 @@ searchBtn.addEventListener('click', (e) => {
 })
 
 searchField.addEventListener('keyup', () => {
-    if (searchCategory === 'All') {
-        filteredAds = [...allAds];
-    }
-
-    if (searchField.value === '') {
-        picks.innerHTML = '';
-        filteredAds.map((ad) => {
-            renderAds(ad);
-        })
-    }
+    
 })
 
 
 function search() {
-    popularCategories.style.display = "none";
-    const textSearched = searchField.value && searchField.value.toLowerCase();
-    picks.innerHTML = '';
-
-    if (searchCategory === 'All') {
-        filteredAds = [...allAds];
-    }
-
-    filteredAds.map((ad) => {
-        if (ad.title && ad.title.toLowerCase().includes(textSearched)) {
-            renderAds(ad);
-        }
-    });
-
-    if (picks.innerHTML.trim().length === 0) {
-        picks.innerHTML = `<div style="text-align:center; margin:50px 0;"><h2>Oops! There is nothing to show :(</h2><img src="./images/noresults.png" alt=""></div>`;
-    }
+    
 
 }
 
-//my ads
-var myAds = document.getElementById("myAds");
-
-myAds.addEventListener('click', () => {
-    // location.href = 'myads.html';
-    picks.innerHTML = '';
-    categoryHeading.innerText = 'My Ads';
-    var currentUserUid = firebase.auth().currentUser.uid;
-
-    allAds.map((ad) => {
-        if (ad.uid === currentUserUid) {
-            filteredAds.push(ad);
-            renderAds(ad);
-        }
-
-        // if (picks.innerHTML.trim().length === 0) {
-        //     picks.innerHTML = `<div style="text-align:center; margin:50px 0;"><h2>Oops! There is nothing to show :(</h2><img src="./images/noresults.png" alt=""></div>`;
-        // }
-    });
-})
-
-// show ad details
-var showAdImage = document.getElementById("showAdImage");
-var showAdDescriptionHeading = document.getElementById("showAdDescriptionHeading");
-var showAdDescriptionDesc = document.getElementById("showAdDescriptionDesc");
-var price = document.getElementById("price");
-var sellerName = document.getElementById("sellerName");
-var sellerPhone = document.getElementById("sellerPhone");
-var chatWithSeller = document.getElementById("chatWithSeller");
-var adDetailsPopup = document.getElementById("adDetailsPopup");
-var closeAdDetailsPopup = document.getElementById("closeAdDetailsPopup");
-var adDetailsUid;
-
-function showAdDetails(figure) {
-    adDetailsPopup.style.display = "block";
-    categoryPopup.style.display = "none";
-    sellPopup.style.display = "none";
-    signupPopup.style.display = "none";
-    signinPopup.style.display = "none";
-
-    let adUid = figure.childNodes[3].childNodes[1].innerText;
-
-    firebase.database().ref(`/ads/${adUid}`).on('value', (snapshot) => {
-        let adDetails = snapshot.val();
-
-        if (adUid === (snapshot.key)) {
-            showAdImage.innerHTML = `<img src="${adDetails.image}" alt="">`;
-            showAdDescriptionHeading.innerHTML = adDetails.title;
-            showAdDescriptionDesc.innerHTML = adDetails.description;
-            price.innerHTML = `Rs. ${adDetails.price}`;
-            sellerName.innerHTML = `Name: ${adDetails.sellerName}`;;
-            sellerPhone.innerHTML = `Phone: <a href="tel:${adDetails.phone}">${adDetails.phone}</a>`;
-        } else {
-            console.log("key doesn't matched");
-        }
-
-        adDetailsUid = adDetails.uid;
-    });
-}
-
-// delete ad
-var deleteAdBtn = document.getElementById("deleteAdBtn");
-console.log(adUid);
-
-deleteAdBtn.onclick = () => {
-    var figure = document.getElementById("figure");
-    console.log(figure);
-    console.log(figure.childNodes[1].childNodes[3]);
-    console.log('del');
-    let adUid = figure.childNodes[1].childNodes[3].childNodes[1].innerText;
-
-    firebase.database().ref(`/ads/${adUid}`).remove();
-
-    adDetailsPopup.style.display = "none";
-    // location.reload();
-}
-
-//function favourite(ad){
-//firebase.database().ref(`/users/${localstorage wla codepastekardo}/favouriteAds`).push(ad)
-//}
