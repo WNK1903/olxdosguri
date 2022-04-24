@@ -1,4 +1,5 @@
 *{
+    color: #b92aea;
     transition: .3s;
     box-sizing: border-box;
 }
@@ -169,7 +170,7 @@ header .top .right{
     text-align: right;
 }
 #signinBtn{
-    color: #2A65EA;
+    color: #b92aea;
     background: transparent;
 }
 #signinBtn:hover{
@@ -232,7 +233,7 @@ header .top .right{
     float: left;
 }
 #sellBtn{
-    background: #2A65EA;
+    background: #b92aea;
     color: #fff;
 }
 #sellBtn:hover{
