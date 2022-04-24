@@ -145,64 +145,12 @@ sellForm.onsubmit = (e) => {
     var adPhone = document.getElementById("adPhone");
     var adImage = document.getElementById("adImage");
 
-    // firebase storage
-    var file = adImage.files[0];
-    console.log(file);
-    if (file === undefined) {
-
-        let ads = {
-            title: adTitle.value,
-            description: adDescription.value,
-            price: adPrice.value,
-            phone: adPhone.value,
-            image: 'https://firebasestorage.googleapis.com/v0/b/olx-app-d4585.appspot.com/o/images%2Fdummyimg.jpg?alt=media&token=b38e6cca-abff-4c59-b728-3bbb8c3018fa',
-            category: selectedCategory.value,
-            uid: (JSON.parse(localStorage.getItem('auth')) && JSON.parse(localStorage.getItem('auth')).uid) || '',
-            sellerName: currentUserName,
-        }
-        console.log(ads)
-        firebase.database().ref('/ads').push(ads)
-            .then(() => {
-                // clear all fields and show category modal
-                adTitle.value = "";
-                adDescription.value = "";
-                adPrice.value = "";
-                adPhone.value = "";
-                adImage.value = "";
-            })
-            .catch(console.log);
-    } else {
-        var storageRef = firebase.storage().ref('images/' + file.name);
-        storageRef.put(file).then((url) => {
-            url.ref.getDownloadURL().then((imgURL) => {
-                console.log(imgURL);
-
-                let ads = {
-                    title: adTitle.value,
-                    description: adDescription.value,
-                    price: adPrice.value,
-                    phone: adPhone.value,
-                    image: imgURL,
-                    category: selectedCategory.value,
-                    uid: (JSON.parse(localStorage.getItem('auth')) && JSON.parse(localStorage.getItem('auth')).uid) || '',
-                    sellerName: currentUserName,
-                }
-                console.log(ads)
-                firebase.database().ref('/ads').push(ads)
-                    .then(() => {
-                        // clear all fields and show category modal
-                        adTitle.value = "";
-                        adDescription.value = "";
-                        adPrice.value = "";
-                        adPhone.value = "";
-                        adImage.value = "";
-                    })
-                    .catch(console.log);
-            })
-        });
+    addSell.onclick = () => {
+        categoryPopup.style.display = "none";
+        sellPopup.style.display = "none";
+        signupPopup.style.display = "none";
+        signinPopup.style.display = "none";
     }
-
-    sellPopup.style.display = "none";
 }
 
 // signup with email
