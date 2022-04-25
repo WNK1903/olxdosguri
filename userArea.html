@@ -16,7 +16,7 @@
     <link href="https://use.fontawesome.com/releases/v5.0.7/css/all.css" rel="stylesheet">
 </head>
 
-<body>
+<body onload="minhaFuncao()">
     <!-- signin popup -->
     <div id="signinPopup">
         <div id="signinPopupContainer">
@@ -229,7 +229,6 @@
                 <div class="heading">
                     <h2>Seus Itens para venda</h2>
                 </div>
-                
             </div>
         </div>
         <!-- /popular categories -->
@@ -241,6 +240,16 @@
                     <h2 id="categoryHeading">Recentemente adicionado</h2>
                     <hr>
                 </div>
+                <div class="popularCategories" id="popularCategories">
+                    <div class="container">
+                        <div class="categories">
+                            <div class="oneThird">
+                                <div id="resultado" class="top">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>          
                 <div class="picks" id="picks">
 
                 </div>

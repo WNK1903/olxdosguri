@@ -301,6 +301,10 @@ header .bottom .dropdown .dropdownContent a:hover{
     border-bottom: none;
     border-right: none;
 }
+.popularCategories .categories .oneThird .top, .popularCategories .categories .oneThird .sellItens{
+    border: solid 1px #ccc;
+    padding: 30px;
+}
 .popularCategories .categories .oneThird:nth-child(3n+3){
     border-right: solid 1px #ccc;
     margin-right: 0;

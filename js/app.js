@@ -127,6 +127,50 @@ function saveSellFormLocalStorage(vendor, title, description, price, phone, imag
     localStorage.setItem(adDescription.value, JSON.stringify(sell));
 }
 
+function minhaFuncao(){
+
+   // var novaTabela = document.createElement("table");
+   // document.getElementById("resultado").appendChild(novaTabela);
+
+ //   var tabela = document.createElement("table");
+ //   var cabecalho = document.createElement("thead");
+  //  var corpo = document.createElement("tbody");
+
+  //  tabela.appendChild(cabecalho); 
+  //  tabela.appendChild(corpo);
+
+  //  document.getElementById("resultado").appendChild(tabela);
+
+    //var tr = document.createElementNS()
+
+    document.querySelector('#resultado').innerHTML = localStorage.getItem("Cel");
+}
+
+function listar(){
+    document.querySelector('#tblListar').innerHTML.html = '';
+  //  document.querySelector('#tblListar').innerHTML.html(
+  //      "<thead>"+
+  //      "   <tr>"+
+  //      "   <th>Código</th>"+
+  //      "   <th>Nome</th>"+
+   //     "   <th>Telefone</th>"+
+   //     "   <th>Email</th>"+
+   //     "   </tr>"+
+   //     "</thead>"+
+    //    "<tbody>"+
+    //    "</tbody>"
+    //    );
+    for(var i in adDescription.value){
+        var desc = JSON.parse(adDescription.value[i]);
+        document.querySelector('#tblListar').innerHTML.append("<tr>");
+        document.querySelector('#tblListar').innerHTML.append("<td>"+desc+"</td>");
+        document.querySelector('#tblListar').innerHTML.append("<td>"+desc+"</td>");
+        document.querySelector('#tblListar').innerHTML.append("<td>"+desc+"</td>");
+        document.querySelector('#tblListar').innerHTML.append("<td>"+desc+"</td>");
+        document.querySelector('#tblListar').innerHTML.append("</tr>");
+    }
+}
+
 
 var signupForm = document.getElementById("signupForm");
 // signup
