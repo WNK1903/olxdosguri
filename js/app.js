@@ -101,8 +101,32 @@ var sellForm = document.getElementById("sellForm");
 
 sellForm.onsubmit = (e) => {
     e.preventDefault();
-    
+    var vendor = document.getElementById("adVendor");
+    var title  = document.getElementById("adTitle"); 
+    var description = document.getElementById("adDescription"); 
+    var price = document.getElementById("adPrice");
+    var phone = document.getElementById("adPhone");
+    var image = document.getElementById("adImage");
+    saveSellFormLocalStorage(vendor, title, description, price, phone, image);
+
+    sellPopup.style.display = "none";
+    signupPopup.style.display = "none";
+    signinPopup.style.display = "none";     
+    categoryPopup.style.display = "none";
 }
+
+function saveSellFormLocalStorage(vendor, title, description, price, phone, image) {
+    const sell = {
+        vendor : vendor.value, 
+        title  : title.value,
+        description : description.value,
+        price : price.value,
+        phone : phone.value,
+        image : image.value
+    };
+    localStorage.setItem(adDescription.value, JSON.stringify(sell));
+}
+
 
 var signupForm = document.getElementById("signupForm");
 // signup
