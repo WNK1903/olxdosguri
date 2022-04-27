@@ -1,11 +1,44 @@
-var currentUserName;
-var currentUserUid;
+// 
+let signinBtn = document.getElementById("signinBtn");
+let signinBtn_2 = document.getElementById("signinBtn_2");
+let signinPopup = document.getElementById("signinPopup");
+let closeSigninPopup = document.getElementById("closeSigninPopup");
 
-// signin popup
-var signinBtn = document.getElementById("signinBtn");
-var signinBtn_2 = document.getElementById("signinBtn_2");
-var signinPopup = document.getElementById("signinPopup");
-var closeSigninPopup = document.getElementById("closeSigninPopup");
+// signup popup
+let signupBtn = document.getElementById("signupBtn");
+let signupPopup = document.getElementById("signupPopup");
+let closeSignupPopup = document.getElementById("closeSignupPopup");
+
+// category popup
+let selectedCategory = '';
+let sellBtn = document.getElementById("sellBtn");
+let categoryPopup = document.getElementById("categoryPopup");
+let closeCategoryPopup = document.getElementById("closeCategoryPopup");
+
+// back category popup
+let backCategoryPopup = document.getElementById("backCategoryPopup");
+
+// sell popup
+let categoryForm = document.getElementById("categoryForm");
+let categoryName = document.getElementById("categoryName");
+
+//sellForm
+let sellForm = document.getElementById("sellForm");
+
+// login form
+let signupForm = document.getElementById("signupForm");
+
+// signin
+let signinForm = document.getElementById("signinForm");
+
+// signout
+let signoutBtn = document.getElementById("signoutBtn");
+
+// searching ads
+let searchField = document.getElementById('searchField');
+let searchBtn = document.getElementById('searchBtn');
+
+
 
 function signinBtn_f() {
     signinPopup.style.display = "flex";
@@ -26,23 +59,12 @@ signinBtn_2.onclick = () => {
     categoryPopup.style.display = "none";
 }
 
-// signup popup
-var signupBtn = document.getElementById("signupBtn");
-var signupPopup = document.getElementById("signupPopup");
-var closeSignupPopup = document.getElementById("closeSignupPopup");
-
 signupBtn.onclick = () => {
     signupPopup.style.display = "flex";
     signinPopup.style.display = "none";
     sellPopup.style.display = "none";
     categoryPopup.style.display = "none";
 }
-
-// category popup
-var selectedCategory = '';
-var sellBtn = document.getElementById("sellBtn");
-var categoryPopup = document.getElementById("categoryPopup");
-var closeCategoryPopup = document.getElementById("closeCategoryPopup");
 
 sellBtn.onclick = () => {
     categoryPopup.style.display = "flex";
@@ -51,19 +73,12 @@ sellBtn.onclick = () => {
     signinPopup.style.display = "none";
 }
 
-// back category popup
-var backCategoryPopup = document.getElementById("backCategoryPopup");
-
 backCategoryPopup.onclick = () => {
     categoryPopup.style.display = "flex";
     sellPopup.style.display = "none";
     signupPopup.style.display = "none";
     signinPopup.style.display = "none";
 }
-
-// sell popup
-var categoryForm = document.getElementById("categoryForm");
-var categoryName = document.getElementById("categoryName");
 
 categoryForm.onsubmit = () => {
     selectedCategory = document.querySelector("input[name='category']:checked");
@@ -86,8 +101,11 @@ categoryForm.onsubmit = () => {
 }
 
 // window onclick
-window.onclick = () => {
-    if (event.target === signinPopup || event.target === closeSigninPopup || event.target === signupPopup || event.target === closeSignupPopup || event.target === closeSellPopup || event.target === closeCategoryPopup || event.target === closeAdDetailsPopup) {
+window.onclick = (event) => {
+    if (event.target === signinPopup || event.target === closeSigninPopup || event.target === signupPopup || 
+        event.target === closeSignupPopup || event.target === closeSellPopup || event.target === closeCategoryPopup || 
+        event.target === closeAdDetailsPopup) 
+    {
         signupPopup.style.display = "none";
         signinPopup.style.display = "none";
         sellPopup.style.display = "none";
@@ -96,17 +114,14 @@ window.onclick = () => {
     }
 }
 
-//sellForm
-var sellForm = document.getElementById("sellForm");
-
 sellForm.onsubmit = (e) => {
     e.preventDefault();
-    var vendor = document.getElementById("adVendor");
-    var title  = document.getElementById("adTitle"); 
-    var description = document.getElementById("adDescription"); 
-    var price = document.getElementById("adPrice");
-    var phone = document.getElementById("adPhone");
-    var image = document.getElementById("adImage");
+    let vendor = document.getElementById("adVendor");
+    let title  = document.getElementById("adTitle"); 
+    let description = document.getElementById("adDescription"); 
+    let price = document.getElementById("adPrice");
+    let phone = document.getElementById("adPhone");
+    let image = document.getElementById("adImage");
     saveSellFormLocalStorage(vendor, title, description, price, phone, image);
 
     sellPopup.style.display = "none";
@@ -129,19 +144,19 @@ function saveSellFormLocalStorage(vendor, title, description, price, phone, imag
 
 function minhaFuncao(){
 
-   // var novaTabela = document.createElement("table");
+   // let novaTabela = document.createElement("table");
    // document.getElementById("resultado").appendChild(novaTabela);
 
- //   var tabela = document.createElement("table");
- //   var cabecalho = document.createElement("thead");
-  //  var corpo = document.createElement("tbody");
+ //   let tabela = document.createElement("table");
+ //   let cabecalho = document.createElement("thead");
+  //  let corpo = document.createElement("tbody");
 
   //  tabela.appendChild(cabecalho); 
   //  tabela.appendChild(corpo);
 
   //  document.getElementById("resultado").appendChild(tabela);
 
-    //var tr = document.createElementNS()
+    //let tr = document.createElementNS()
 
     document.querySelector('#resultado').innerHTML = localStorage.getItem("Cel");
 }
@@ -160,8 +175,8 @@ function listar(){
     //    "<tbody>"+
     //    "</tbody>"
     //    );
-    for(var i in adDescription.value){
-        var desc = JSON.parse(adDescription.value[i]);
+    for(let i in adDescription.value){
+        let desc = JSON.parse(adDescription.value[i]);
         document.querySelector('#tblListar').innerHTML.append("<tr>");
         document.querySelector('#tblListar').innerHTML.append("<td>"+desc+"</td>");
         document.querySelector('#tblListar').innerHTML.append("<td>"+desc+"</td>");
@@ -171,14 +186,12 @@ function listar(){
     }
 }
 
-
-var signupForm = document.getElementById("signupForm");
 // signup
 signupForm.onsubmit = (e) => {
     e.preventDefault();
-    var name = document.getElementById("signupName");
-    var email = document.getElementById("signupEmail");
-    var pass = document.getElementById("signupPw");
+    let name = document.getElementById("signupName");
+    let email = document.getElementById("signupEmail");
+    let pass = document.getElementById("signupPw");
     saveUserLocalSorage(name, email, pass);
 
 }
@@ -192,17 +205,13 @@ function saveUserLocalSorage(name, email, pass){
     localStorage.setItem(signupEmail.value, JSON.stringify(user));
 }
 
-
-// signin
-var signinForm = document.getElementById("signinForm");
-
 signinForm.onsubmit = (e) => {
     e.preventDefault();
     signIn(document.getElementById("signinEmail"), document.getElementById("signinPw"));
 }
 
 function signIn(email, pass){
-    var item = JSON.parse(localStorage.getItem(email.value));
+    let item = JSON.parse(localStorage.getItem(email.value));
     if(item !== null){
         if(item.email === email.value && item.pass === pass.value){
             console.log('deu certo');
@@ -210,10 +219,6 @@ function signIn(email, pass){
         }
     }
 }
-
-
-// signout
-var signoutBtn = document.getElementById("signoutBtn");
 
 signoutBtn.onclick = (e) => {
     e.preventDefault();
@@ -223,53 +228,6 @@ signoutBtn.onclick = (e) => {
 function signOut() {
     window.location.assign('index.html');
 }
-
-// rendering all products
-const picks = document.getElementById('picks');
-var adUid;
-
-// filtering
-var searchCategory = 'All';
-var popularCategories = document.getElementById("popularCategories");
-var categoryHeading = document.getElementById("categoryHeading");
-var browseCategories = document.getElementById("browseCategories");
-var mainBanner = document.getElementById("mainBanner");
-var mainBannerImg = document.getElementById("mainBannerImg");
-
-function filter(category) {
-    filteredAds = [];
-    searchField.value = '';
-    browseCategories.innerHTML = '';
-    browseCategories.innerHTML = `Browse by Categories &nbsp; / &nbsp; ${category}`;
-    // popularCategories.style.display = "none";
-    categoryHeading.innerText = category;
-    picks.innerHTML = '';
-    searchCategory = category;
-
-    if (category === 'All') {
-        filteredAds = [...allAds];
-        allAds.map((ad) => {
-            renderAds(ad);
-        })
-
-        return;
-    }
-
-    allAds.map((ad) => {
-        if (ad.category === category) {
-            filteredAds.push(ad);
-            renderAds(ad);
-        }
-    });
-
-    if (picks.innerHTML.trim().length === 0) {
-        picks.innerHTML = `<div style="text-align:center; margin:50px 0;"><h2>Oops! There is nothing to show :(</h2><img src="./images/noresults.png" alt=""></div>`;
-    }
-}
-
-// searching ads
-var searchField = document.getElementById('searchField');
-var searchBtn = document.getElementById('searchBtn');
 
 searchBtn.addEventListener('click', (e) => {
     e.preventDefault();
