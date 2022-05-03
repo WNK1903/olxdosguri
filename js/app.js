@@ -1,50 +1,44 @@
-// 
+// elementos da modal de logar
 let signinBtn = document.getElementById("signinBtn");
 let signinBtn_2 = document.getElementById("signinBtn_2");
 let signinPopup = document.getElementById("signinPopup");
 let closeSigninPopup = document.getElementById("closeSigninPopup");
 
-// signup popup
+// elementos da modal de entrar
 let signupBtn = document.getElementById("signupBtn");
 let signupPopup = document.getElementById("signupPopup");
 let closeSignupPopup = document.getElementById("closeSignupPopup");
 
-// category popup
+// elementos da modal de categorias
 let selectedCategory = '';
 let sellBtn = document.getElementById("sellBtn");
 let categoryPopup = document.getElementById("categoryPopup");
 let closeCategoryPopup = document.getElementById("closeCategoryPopup");
 
-// back category popup
+// botao de voltar categoria
 let backCategoryPopup = document.getElementById("backCategoryPopup");
 
-// sell popup
+// botao vender
 let categoryForm = document.getElementById("categoryForm");
 let categoryName = document.getElementById("categoryName");
 
-//sellForm
+// form de venda
 let sellForm = document.getElementById("sellForm");
 
-// login form
+// form de cadastro
 let signupForm = document.getElementById("signupForm");
 
-// signin
+// form de login
 let signinForm = document.getElementById("signinForm");
 
-// signout
+// botao logout
 let signoutBtn = document.getElementById("signoutBtn");
 
-// searching ads
+// elementos de busca
 let searchField = document.getElementById('searchField');
 let searchBtn = document.getElementById('searchBtn');
 
-
-
-function signinBtn_f() {
-    signinPopup.style.display = "flex";
-    signupPopup.style.display = "none";
-}
-
+// Ao clicar em algum botão ajusta as propriedades CSS dos demais
 signinBtn.onclick = () => {
     signinPopup.style.display = "flex";
     signupPopup.style.display = "none";
@@ -80,6 +74,20 @@ backCategoryPopup.onclick = () => {
     signinPopup.style.display = "none";
 }
 
+// ao clicar fora de qualquer popup
+window.onclick = (event) => {
+    if (event.target === signinPopup || event.target === closeSigninPopup || event.target === signupPopup || 
+        event.target === closeSignupPopup || event.target === closeSellPopup || event.target === closeCategoryPopup || 
+        event.target === closeAdDetailsPopup) 
+    {
+        signupPopup.style.display = "none";
+        signinPopup.style.display = "none";
+        sellPopup.style.display = "none";
+        categoryPopup.style.display = "none";
+        adDetailsPopup.style.display = "none";
+    }
+}
+
 categoryForm.onsubmit = () => {
     selectedCategory = document.querySelector("input[name='category']:checked");
 
@@ -93,25 +101,10 @@ categoryForm.onsubmit = () => {
 
         selectedCategory.checked = false;
 
-        document.getElementById("warning").style.display = "none";
     } else {
         document.getElementById("warning").style.display = "block";
     }
     return false;
-}
-
-// window onclick
-window.onclick = (event) => {
-    if (event.target === signinPopup || event.target === closeSigninPopup || event.target === signupPopup || 
-        event.target === closeSignupPopup || event.target === closeSellPopup || event.target === closeCategoryPopup || 
-        event.target === closeAdDetailsPopup) 
-    {
-        signupPopup.style.display = "none";
-        signinPopup.style.display = "none";
-        sellPopup.style.display = "none";
-        categoryPopup.style.display = "none";
-        adDetailsPopup.style.display = "none";
-    }
 }
 
 sellForm.onsubmit = (e) => {
@@ -128,6 +121,7 @@ sellForm.onsubmit = (e) => {
     signupPopup.style.display = "none";
     signinPopup.style.display = "none";     
     categoryPopup.style.display = "none";
+    sellForm.reset;
 }
 
 function saveSellFormLocalStorage(vendor, title, description, price, phone, image) {
@@ -139,7 +133,7 @@ function saveSellFormLocalStorage(vendor, title, description, price, phone, imag
         phone : phone.value,
         image : image.value
     };
-    localStorage.setItem(adDescription.value, JSON.stringify(sell));
+    localStorage.setItem(description.value, JSON.stringify(sell));
 }
 
 function minhaFuncao(){
@@ -161,38 +155,20 @@ function minhaFuncao(){
     document.querySelector('#resultado').innerHTML = localStorage.getItem("Cel");
 }
 
-function listar(){
-    document.querySelector('#tblListar').innerHTML.html = '';
-  //  document.querySelector('#tblListar').innerHTML.html(
-  //      "<thead>"+
-  //      "   <tr>"+
-  //      "   <th>Código</th>"+
-  //      "   <th>Nome</th>"+
-   //     "   <th>Telefone</th>"+
-   //     "   <th>Email</th>"+
-   //     "   </tr>"+
-   //     "</thead>"+
-    //    "<tbody>"+
-    //    "</tbody>"
-    //    );
-    for(let i in adDescription.value){
-        let desc = JSON.parse(adDescription.value[i]);
-        document.querySelector('#tblListar').innerHTML.append("<tr>");
-        document.querySelector('#tblListar').innerHTML.append("<td>"+desc+"</td>");
-        document.querySelector('#tblListar').innerHTML.append("<td>"+desc+"</td>");
-        document.querySelector('#tblListar').innerHTML.append("<td>"+desc+"</td>");
-        document.querySelector('#tblListar').innerHTML.append("<td>"+desc+"</td>");
-        document.querySelector('#tblListar').innerHTML.append("</tr>");
-    }
-}
-
 // signup
 signupForm.onsubmit = (e) => {
     e.preventDefault();
     let name = document.getElementById("signupName");
     let email = document.getElementById("signupEmail");
     let pass = document.getElementById("signupPw");
-    saveUserLocalSorage(name, email, pass);
+    if(localStorage.getItem(email.value)){
+        alert('Você já possui cadastro!');
+        return;
+    }else{
+        saveUserLocalSorage(name, email, pass);
+        alert('Cadastro realizado com sucesso!');
+        signinBtn.onclick();
+    }
 
 }
 
@@ -216,7 +192,11 @@ function signIn(email, pass){
         if(item.email === email.value && item.pass === pass.value){
             console.log('deu certo');
             window.location.assign('userArea.html');
+        }else{
+            alert('Usuário ou senha inválidos!');
         }
+    }else{
+        alert('Você não possui cadastro!');
     }
 }
 
