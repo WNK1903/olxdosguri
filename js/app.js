@@ -160,7 +160,7 @@ function minhaFuncao(){
 
     //let tr = document.createElementNS()
 
-    document.querySelector('#resultado').innerHTML = localStorage.getItem("Cel");
+    document.querySelector('#recent-products').innerHTML = localStorage.getItem("Cel");
 }
 
 // signup
