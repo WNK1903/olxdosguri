@@ -134,7 +134,14 @@ function saveSellFormLocalStorage(vendor, title, description, price, phone, imag
         phone : phone.value,
         image : image.value
     };
-    localStorage.setItem(description.value, JSON.stringify(sell));
+    let produtos = localStorage.getItem('produtos');
+    if(produtos === '' || produtos === null){
+        localStorage.setItem('produtos', JSON.stringify([sell]));
+    }else{
+        produtos = JSON.parse(produtos);
+        produtos.push(sell);
+        localStorage.setItem('produtos', JSON.stringify(produtos));
+    }
 }
 
 function minhaFuncao(){
