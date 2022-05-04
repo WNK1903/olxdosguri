@@ -100,9 +100,10 @@ categoryForm.onsubmit = () => {
         categoryPopup.style.display = "none";
 
         selectedCategory.checked = false;
-
+        categoryForm.reset();
     } else {
         document.getElementById("warning").style.display = "block";
+        categoryForm.reset();
     }
     return false;
 }
@@ -121,7 +122,7 @@ sellForm.onsubmit = (e) => {
     signupPopup.style.display = "none";
     signinPopup.style.display = "none";     
     categoryPopup.style.display = "none";
-    sellForm.reset;
+    sellForm.reset();
 }
 
 function saveSellFormLocalStorage(vendor, title, description, price, phone, image) {
@@ -169,7 +170,7 @@ signupForm.onsubmit = (e) => {
         alert('Cadastro realizado com sucesso!');
         signinBtn.onclick();
     }
-
+    signupForm.reset();
 }
 
 function saveUserLocalSorage(name, email, pass){
@@ -184,6 +185,7 @@ function saveUserLocalSorage(name, email, pass){
 signinForm.onsubmit = (e) => {
     e.preventDefault();
     signIn(document.getElementById("signinEmail"), document.getElementById("signinPw"));
+    signinForm.reset();
 }
 
 function signIn(email, pass){
