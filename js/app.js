@@ -144,23 +144,26 @@ function saveSellFormLocalStorage(vendor, title, description, price, phone, imag
     }
 }
 
-function minhaFuncao(){
-
-   // let novaTabela = document.createElement("table");
-   // document.getElementById("resultado").appendChild(novaTabela);
-
- //   let tabela = document.createElement("table");
- //   let cabecalho = document.createElement("thead");
-  //  let corpo = document.createElement("tbody");
-
-  //  tabela.appendChild(cabecalho); 
-  //  tabela.appendChild(corpo);
-
-  //  document.getElementById("resultado").appendChild(tabela);
-
-    //let tr = document.createElementNS()
-
-    document.querySelector('#recent-products').innerHTML = localStorage.getItem("Cel");
+function listarProdutos(){
+    let produtos = JSON.parse(localStorage.getItem('produtos'));
+    produtos.forEach(element => {
+        console.log(element);
+        let produto = 
+        `<div id="product">
+            <div id="info-product">
+                <div class="info-product-item">
+                    <img src="">
+                </div>
+            </div>
+            <div>
+                <span id="info-product-vendedor">`+element.vendor+`</span>
+                <span id="info-product-desc">`+element.description+`</span>
+                <span id="info-product-price">R$`+element.price+`</span>
+            </div>
+        </div>`;
+        document.querySelector('#recent-products').innerHTML = produto;
+        produto = null;
+    });
 }
 
 // signup
