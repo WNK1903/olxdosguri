@@ -146,23 +146,22 @@ function saveSellFormLocalStorage(vendor, title, description, price, phone, imag
 
 function listarProdutos(){
     let produtos = JSON.parse(localStorage.getItem('produtos'));
+    let productsArea = document.querySelector('#recent-products');
     produtos.forEach(element => {
         console.log(element);
-        let produto = 
-        `<div id="product">
-            <div id="info-product">
-                <div class="info-product-item">
-                    <img src="">
+        productsArea.innerHTML += 
+            `<div id="product">
+                <div id="info-product">
+                    <div class="info-product-item">
+                        <img src="">
+                    </div>
                 </div>
-            </div>
-            <div>
-                <span id="info-product-vendedor">`+element.vendor+`</span>
-                <span id="info-product-desc">`+element.description+`</span>
-                <span id="info-product-price">R$`+element.price+`</span>
-            </div>
-        </div>`;
-        document.querySelector('#recent-products').innerHTML = produto;
-        produto = null;
+                <div>
+                    <span id="info-product-vendedor">`+element.vendor+`</span>
+                    <span id="info-product-desc">`+element.description+`</span>
+                    <span id="info-product-price">R$`+element.price+`</span>
+                </div>
+            </div>`;
     });
 }
 
