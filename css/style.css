@@ -861,6 +861,10 @@ footer .bottom .right{
     background: rgb(72, 123, 243);
 }
 
+.product{
+    display: inline-block;
+}
+
 
 
 @media (max-width: 900px){

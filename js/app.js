@@ -150,10 +150,10 @@ function listarProdutos(){
     produtos.forEach(element => {
         console.log(element);
         productsArea.innerHTML += 
-            `<div id="product">
-                <div id="info-product">
+            `<div class="product">
+                <div class="info-product">
                     <div class="info-product-item">
-                        <img src="">
+                        <img src="`+element.image+`">
                     </div>
                 </div>
                 <div>
