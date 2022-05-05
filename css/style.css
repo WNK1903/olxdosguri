@@ -729,7 +729,11 @@ footer .bottom .right{
 
 /* details sell*/
 
-#info-product {
+#recent-products {
+    display: inline-block;
+}
+
+.info-product {
     width: 240px;
 }
 
