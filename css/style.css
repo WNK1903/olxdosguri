@@ -745,7 +745,7 @@ footer .bottom .right{
     padding-bottom: 75%;
 }
 
-#info-product-desc {
+.info-product-desc {
     color: rgb(74, 74, 74);
     font-size: 14px;
     font-weight: 400;
@@ -759,7 +759,7 @@ footer .bottom .right{
     -webkit-line-clamp: 1;
 }
 
-#info-product-price {
+.info-product-price {
     margin-top: 4px;
     color: rgb(74, 74, 74);
     font-size: 16px;
