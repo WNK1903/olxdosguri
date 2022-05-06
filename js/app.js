@@ -132,7 +132,7 @@ function saveSellFormLocalStorage(vendor, title, description, price, phone, imag
         description : description.value,
         price : price.value,
         phone : phone.value,
-        image : image.value
+        image : saveImageLocalStorage(image)
     };
     let produtos = localStorage.getItem('produtos');
     if(produtos === '' || produtos === null){
@@ -144,6 +144,16 @@ function saveSellFormLocalStorage(vendor, title, description, price, phone, imag
     }
 }
 
+function saveImageLocalStorage(img) {
+    var canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0);
+    var dataURL = canvas.toDataURL("image/png");
+    return dataURL;
+}
+
 function listarProdutos(){
     let produtos = JSON.parse(localStorage.getItem('produtos'));
     let productsArea = document.querySelector('#recent-products');
@@ -151,15 +161,13 @@ function listarProdutos(){
         console.log(element);
         productsArea.innerHTML += 
             `<div class="product">
-                <div class="info-product">
-                    <div class="info-product-item">
-                        <img src="`+element.image+`">
-                    </div>
+                <div class="product-image">
+                    <img src="`+element.image+`">
                 </div>
                 <div>
-                    <span id="info-product-vendedor">`+element.vendor+`</span>
-                    <span id="info-product-desc">`+element.description+`</span>
-                    <span id="info-product-price">R$`+element.price+`</span>
+                    <div class="info-product-vendedor">Vendedor: `+element.vendor+`</div>
+                    <div class="info-product-desc">`+element.description+`</div>
+                    <div class="info-product-price">R$`+element.price+`</div>
                 </div>
             </div>`;
     });
